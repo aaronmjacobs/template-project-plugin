@@ -34,8 +34,6 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
 import java.util.List;
-import org.jenkinsci.plugins.multiplescms.MultiSCM;
-import org.jenkinsci.plugins.multiplescms.MultiSCMRevisionState;
 
 
 public class ProxySCM extends SCM {
@@ -75,17 +73,6 @@ public class ProxySCM extends SCM {
 	public void checkout(@Nonnull Run<?,?> build, @Nonnull Launcher launcher, @Nonnull FilePath workspace,
 			@Nonnull TaskListener listener, @CheckForNull File changelogFile, @CheckForNull SCMRevisionState baseline)
 			throws IOException, InterruptedException {
-
-		// Unique situation where MultiSCM has $None for SCMRevisionState
-		// Potentially due to SCM polling and references lost, or fixed with:
-		// https://github.com/jenkinsci/multiple-scms-plugin/pull/6
-		// https://issues.jenkins-ci.org/browse/JENKINS-27638
-		// Since MultiSCM is optional, might not be installed, hacky check string name.
-		if (getProjectScm((AbstractBuild) build).toString().contains("multiplescms")) {
-			if ((baseline == SCMRevisionState.NONE) || (baseline == null)) {
-				baseline = new MultiSCMRevisionState();
-			}
-		}
 
 		AbstractProject p = TemplateUtils.getProject(getProjectName(), (AbstractBuild) build);
 		listener.getLogger().println("[TemplateProject] Using SCM from: " + HyperlinkNote.encodeTo('/'+ p.getUrl(), p.getFullDisplayName()));
