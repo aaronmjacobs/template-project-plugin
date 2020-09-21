@@ -21,7 +21,6 @@ import hudson.scm.SCMDescriptor;
 import hudson.scm.SCMRevisionState;
 import hudson.scm.SCM;
 import hudson.security.AccessControlled;
-import hudson.tasks.Messages;
 import hudson.util.FormValidation;
 
 import java.io.File;
@@ -131,11 +130,10 @@ public class ProxySCM extends SCM {
 			}
 			Item item = Hudson.getInstance().getItemByFullName(value, Item.class);
 			if (item == null) {
-				return FormValidation.error(Messages.BuildTrigger_NoSuchProject(value,
-						AbstractProject.findNearest(value).getName()));
+				return FormValidation.error("No such project: " + value);
 			}
 			if (!(item instanceof AbstractProject)) {
-				return FormValidation.error(Messages.BuildTrigger_NotBuildable(value));
+				return FormValidation.error("Not buildable: " + value);
 			}
 			return FormValidation.ok();
 		}

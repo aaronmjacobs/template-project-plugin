@@ -14,7 +14,6 @@ import hudson.model.Item;
 import hudson.security.AccessControlled;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
-import hudson.tasks.Messages;
 import hudson.tasks.Publisher;
 import hudson.tasks.Recorder;
 import hudson.util.FormValidation;
@@ -143,12 +142,10 @@ public class ProxyPublisher extends Recorder implements DependecyDeclarer {
 			Item item = Hudson.getInstance().getItemByFullName(
 					value, Item.class);
 			if (item == null) {
-				return FormValidation.error(Messages.BuildTrigger_NoSuchProject(value,
-						AbstractProject.findNearest(value)
-								.getName()));
+				return FormValidation.error("No such project: " + value);
 			}
 			if (!(item instanceof AbstractProject)) {
-				return FormValidation.error(Messages.BuildTrigger_NotBuildable(value));
+				return FormValidation.error("Not buildable: " + value);
 			}
 			return FormValidation.ok();
 		}

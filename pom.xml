@@ -3,8 +3,13 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.580.1</version>
+    <version>3.50</version>
   </parent>
+
+  <properties>
+    <jenkins.version>2.164.3</jenkins.version>
+    <java.level>8</java.level>
+  </properties>
 
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>template-project</artifactId>
@@ -48,7 +53,7 @@
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>2.4</version>
+      <version>2.6</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>

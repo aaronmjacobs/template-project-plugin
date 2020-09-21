@@ -16,7 +16,6 @@ import hudson.model.Project;
 import hudson.security.AccessControlled;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
-import hudson.tasks.Messages;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
 
@@ -96,12 +95,10 @@ public class ProxyBuilder extends Builder implements DependecyDeclarer {
 			Item item = Hudson.getInstance().getItemByFullName(
 					value, Item.class);
 			if (item == null) {
-				return FormValidation.error(Messages.BuildTrigger_NoSuchProject(value,
-						AbstractProject.findNearest(value)
-								.getName()));
+				return FormValidation.error("No such project: " + value);
 			}
 			if (!(item instanceof Project) && !(item instanceof MatrixProject)) {
-				return FormValidation.error(Messages.BuildTrigger_NotBuildable(value));
+				return FormValidation.error("Not buildable: " + value);
 			}
 			return FormValidation.ok();
 		}

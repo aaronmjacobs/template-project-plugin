@@ -17,7 +17,6 @@ import hudson.model.Run;
 import hudson.security.AccessControlled;
 import hudson.tasks.BuildWrapper;
 import hudson.tasks.BuildWrapperDescriptor;
-import hudson.tasks.Messages;
 import hudson.util.FormValidation;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -148,12 +147,10 @@ public class ProxyBuildEnvironment extends BuildWrapper implements DependencyDec
 			Item item = Hudson.getInstance().getItemByFullName(
 							value, Item.class);
 			if (item == null) {
-				return FormValidation.error(Messages.BuildTrigger_NoSuchProject(value,
-								AbstractProject.findNearest(value)
-								.getName()));
+				return FormValidation.error("No such project: " + value);
 			}
 			if (!(item instanceof Project) && !(item instanceof MatrixProject)) {
-				return FormValidation.error(Messages.BuildTrigger_NotBuildable(value));
+				return FormValidation.error("Not buildable: " + value);
 			}
 			return FormValidation.ok();
 		}
